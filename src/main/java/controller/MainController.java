@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -17,6 +19,7 @@ import model.SearchResult;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -55,7 +58,7 @@ public class MainController implements Initializable {
     private Label lblBinTime;
 
     @FXML
-    private ListView<?> listBinSteps;
+    private ListView<String> listBinSteps;
 
     @FXML
     private TabPane mainTabPane;
@@ -82,35 +85,120 @@ public class MainController implements Initializable {
     }
 
     private void setupBinTab() {
-        configSlider(sliderBinSize, 10, 50, 20, lblBinArray);
-        btnBinAnimate.setOnAction(event -> generateBin());
+        configSlider(sliderBinSize, 10, 50, 20, lblBinSize);
+        btnBinGen.setOnAction(event -> generateBin());
+        btnBinSearch.setOnAction(event -> runSearch(false));
+        btnBinAnimate.setOnAction(event -> runSearch(true));
+    }
+
+    private void runSearch(boolean animate) {
+        if (binArray == null) {
+            showError(txtBinValue, "Primero genere un arreglo");
+            return;
+        }
+        //tomamos el valor a buscar del textfield
+        //SI EL USUARIO NO INDICA ININGUN VALOR SE ASIGNA UNO DE LOS QUE EXISTEN EN EL ARREGLO DE FORMAR RANDOM
+        int value;
+        try {
+            value = Integer.parseInt(txtBinValue.getText());
+        } catch (NumberFormatException e) {
+            //elegimos un elemento al azar del arreglo
+            value = binArray[new Random().nextInt(binArray.length)];
+            txtBinValue.setText(String.valueOf(value));
+        }
+        ;
+        binArray = SearchEngine.ensureContains(binArray, value);
+        updateArrayLabel(lblBinArray, binArray);
+        SearchResult searchResult = searchEngine.binary(binArray, value);
+        //llenamos el listview
+        ObservableList<String> items = FXCollections.observableArrayList();
+        for (int i = 0; i < searchResult.steps.size(); i++) {
+            SearchResult.Step step = searchResult.steps.get(i);
+            items.add(String.format("[%02d] %s", i + 1, step.description));
+        }
+        listBinSteps.setItems(items);
+        updateStats(lblBinResult, lblBinComps, lblBinTime, lblBinComplex, searchResult);
+//agregamos la nimacion del canvas
+        if (animate) {
+animateSearch(searchResult, binArray, binCanvas, progressBarBin, listBinSteps);
+        } else {
+            //pintamos en el canvas
+            boolean[] vis = buildVisited(searchResult.steps, binArray.length, searchResult.steps.size());
+            SearchResult.Step last = searchResult.steps.isEmpty() ? null
+                    : searchResult.steps.getLast();
+            arrayPainter.paint(binCanvas, binArray, last, vis, searchResult.foundIndex);
+            progressBarBin.setProgress(1.0);
+
+        }
+
+    }
+
+    private void animateSearch(SearchResult searchResult, int[] binArray, Canvas binCanvas, ProgressBar progressBarBin, ListView<String> listBinSteps) {
+
+    }
+
+    private void updateStats(Label lblBinResult, Label lblBinComps, Label lblBinTime, Label lblBinComplex, SearchResult searchResult) {
+//adx
+        if (searchResult == null) {
+            clearStarts(lblBinResult, lblBinComps, lblBinTime, lblBinComplex);
+            return;
+        }
+
+        if (searchResult.isFound()) {
+            lblBinResult.setText("Encontrado en índice: " + searchResult.foundIndex);
+            lblBinResult.setStyle("-fx-text-fill: #2ECC71; -fx-font-weight: bold;");
+        } else {
+            lblBinResult.setText("No encontrado");
+            lblBinResult.setStyle("-fx-text-fill: #E74C3C; -fx-font-weight: bold;");
+        }
+
+
+        lblBinComps.setText(String.valueOf(searchResult.comparisons));
+        lblBinComps.setStyle("-fx-text-fill: #3498DB;");
+
+
+        double timeMs = searchResult.nanoTime / 1_000_000.0;
+        lblBinTime.setText(String.format("%.4f ms", timeMs));
+        lblBinTime.setStyle("-fx-text-fill: #9B59B6;");
+
+
+        lblBinComplex.setText(searchResult.complexityLabel());
+        lblBinComplex.setStyle("-fx-text-fill: #F39C12;");
+    }
+
+    private void showError(TextField txt, String msg) {
+        txt.setStyle("-fx-border-color: #E74C3C;");
+        txt.setPromptText(msg);
+        txt.setText("");
     }
 
     private void generateBin() {
         int size = (int) sliderBinSize.getValue();
-        binArray = searchEngine.generateSorted(size, size *15);
+        binArray = searchEngine.generateSorted(size, size * 15);
         binResult = null;
         repaintBin();
+        updateArrayLabel(lblBinArray, binArray);
+
 
     }
 
     private void repaintBin() {
-        if(binResult == null)return;
+        if (binResult == null) return;
 
         SearchResult.Step step = null;
         boolean[] visited = null;
-        int found =-1;
-        if(binResult != null){
-            step = binResult.steps.isEmpty() ? null : binResult.steps.get(binResult.steps.size() - 1);
+        int found = -1;
+        if (binResult != null) {
+            step = binResult.steps.isEmpty() ? null : binResult.steps.getLast();
             visited = buildVisited(binResult.steps, binArray.length, binResult.steps.size());
             found = binResult.foundIndex;
             updateArrayLabel(lblBinArray, binArray);
-            clearStarts(lblBinArray, lblBinComps,lblBinTime,lblBinComplex);
+
         }
     }
 
     private void clearStarts(Label... labels) {
-        for(Label l : labels){
+        for (Label l : labels) {
             l.setText("-");
             l.setStyle("");
         }
@@ -125,8 +213,12 @@ public class MainController implements Initializable {
         }
         return vis;
     }
+
     private void updateArrayLabel(Label lbl, int[] arr) {
-        if (arr == null || arr.length == 0) { lbl.setText(""); return; }
+        if (arr == null || arr.length == 0) {
+            lbl.setText("");
+            return;
+        }
         StringBuilder sb = new StringBuilder("[");
         int show = Math.min(arr.length, 20);
         for (int i = 0; i < show; i++) {
@@ -139,8 +231,11 @@ public class MainController implements Initializable {
     }
 
     private void configSlider(Slider s, int min, int max, int val, Label lbl) {
-        s.setMin(min); s.setMax(max); s.setValue(val);
-        s.setMajorTickUnit(5); s.setSnapToTicks(false);
+        s.setMin(min);
+        s.setMax(max);
+        s.setValue(val);
+        s.setMajorTickUnit(5);
+        s.setSnapToTicks(false);
         s.valueProperty().addListener((o, ov, nv) -> lbl.setText(String.valueOf(nv.intValue())));
         lbl.setText(String.valueOf(val));
     }

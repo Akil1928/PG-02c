@@ -138,7 +138,7 @@
                                             <padding><Insets left="10.0" /></padding>
                                             <children>
                                                 <Label text="Elemento a buscar:" />
-                                                <TextField fx:id="txtBinValue" prefWidth="80.0" />
+                                                <TextField fx:id="txtBinValue" prefHeight="22.0" prefWidth="184.0" />
                                             </children>
                                         </HBox>
 

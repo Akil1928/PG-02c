@@ -19,7 +19,7 @@ public class HelloApplication extends Application {
         }
 
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlLocation);
-        Scene scene = new Scene(fxmlLoader.load(), 1100, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 1100, 760);
 
         URL cssLocation = HelloApplication.class.getResource("/styles.css");
         if (cssLocation != null) {
