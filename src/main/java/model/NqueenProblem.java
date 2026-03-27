@@ -1,99 +1,91 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NqueenProblem {
+
+    public static List<String> steps = new ArrayList<>();
 
     public String solveNqueens(int n) {
         String result = "";
         int[][] board = new int[n][n];
+        steps.clear();
 
         if (placeFirstQueen(board)) {
             result += printBoard(board);
         } else {
-            result += "No existe solución para un tablero de " + n + "*" + n;
+            result += "No existe solución para un tablero de " + n + "x" + n;
         }
 
         return result;
     }
 
-    //busca la primera reina en cualquier fila y cualquier columna
+
+    //UBICA LA PRIMERA REINA EN CUALQUIER COLUMNA
     private boolean placeFirstQueen(int[][] board) {
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board.length; col++) {
-                if (isSafe(board, row, col)) {
-                    board[row][col] = 1;
+        for (int col = 0; col < board.length; col++) {
+            if (isSafe(board, 0, col)) {
+                board[0][col] = 1;
+                steps.add("Primera reina colocada en [0," + col + "]");
 
-                    if (placeQueens(board, row, col)) return true;
+                if (placeQueens(board, 1)) return true;
 
-                    board[row][col] = 0;
-                }
+                // Backtracking
+                board[0][col] = 0;
+                steps.add("Backtracking --> removiendo reina de [0," + col + "]");
             }
         }
         return false;
     }
 
-    //coloca las demás reinas a partir de la posición inicial
-    private boolean placeQueens(int[][] board, int startRow, int startCol) {
-        if (countQueens(board) == board.length) return true;
+    //COLOCA LAS REINAS RESTANTES FILA POR FILA
 
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board.length; col++) {
-                if (board[row][col] == 0 && isSafe(board, row, col)) {
-                    board[row][col] = 1;
+    private boolean placeQueens(int[][] board, int row) {
+        //Caso base: todas las reinas colocadas
+        if (row == board.length) return true;
 
-                    if (placeQueens(board, row, col)) return true;
+        for (int col = 0; col < board.length; col++) {
+            if (isSafe(board, row, col)) {
+                board[row][col] = 1;
+                steps.add("Reina colocada en [" + row + "," + col + "]");
 
-                    board[row][col] = 0;
-                }
+                // Backtracking: intentar colocar siguiente fila
+                if (placeQueens(board, row + 1)) return true;
+
+                // Backtracking: no funcionó, remover
+                board[row][col] = 0;
+                steps.add("Backtracking --> removiendo reina de [" + row + "," + col + "]");
             }
         }
 
-        return countQueens(board) == board.length;
+        return false;
     }
 
-    private int countQueens(int[][] board) {
-        int count = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j] == 1) count++;
-            }
-        }
-        return count;
-    }
+
+    //VERIFICA SI ES SEGURO COLOCAR UNA REINA
 
     private boolean isSafe(int[][] board, int row, int col) {
-        //revisar fila
-        for (int i = 0; i < board.length; i++) {
-            if (board[row][i] == 1) return false;
-        }
-
-        //revisar columna
+        //Revisar columna
         for (int i = 0; i < board.length; i++) {
             if (board[i][col] == 1) return false;
         }
 
-        //diagonal superior izquierda
+        //Diagonal superior izquierda
         for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
             if (board[i][j] == 1) return false;
         }
 
-        //diagonal superior derecha
+        //Diagonal superior derecha
         for (int i = row, j = col; i >= 0 && j < board.length; i--, j++) {
-            if (board[i][j] == 1) return false;
-        }
-
-        //diagonal inferior izquierda
-        for (int i = row, j = col; i < board.length && j >= 0; i++, j--) {
-            if (board[i][j] == 1) return false;
-        }
-
-        //diagonal inferior derecha
-        for (int i = row, j = col; i < board.length && j < board.length; i++, j++) {
             if (board[i][j] == 1) return false;
         }
 
         return true;
     }
 
+
+    //IMPRIME EL TABLERO
     private String printBoard(int[][] board) {
         String result = "";
         for (int i = 0; i < board.length; i++) {

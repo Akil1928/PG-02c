@@ -2,16 +2,36 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class NqueenProblemTest {
+
+    //TEST – Tablero 4x4
     @Test
-    void solveNQueensTest(){
-        NqueenProblem nqueenProblem = new NqueenProblem();
-        System.out.println("Problema de las N reinas para n=4:");
-        System.out.println(nqueenProblem.solveNqueens(4));
-        System.out.println("Problema de las N reinas para n=8:");
-        System.out.println(nqueenProblem.solveNqueens(8));
+    void nqueenTest4() {
+        NqueenProblem nq = new NqueenProblem();
+        String result = nq.solveNqueens(4);
+
+        System.out.println("══════ N-Reinas 4x4 ══════");
+        System.out.println(result);
+
+        System.out.println("── Pasos ──");
+        for (String s : NqueenProblem.steps) {
+            System.out.println(s);
+        }
     }
 
+
+    //TEST – Tablero 8x8
+    @Test
+    void nqueenTest8() {
+        NqueenProblem nq = new NqueenProblem();
+        String result = nq.solveNqueens(8);
+
+        System.out.println("══════ N-Reinas 8x8 ══════");
+        System.out.println(result);
+
+        System.out.println("── Pasos ──");
+        for (String s : NqueenProblem.steps) {
+            System.out.println(s);
+        }
+    }
 }

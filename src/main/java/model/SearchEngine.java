@@ -9,9 +9,7 @@ import java.util.Random;
  */
 public class SearchEngine {
 
-    // ═════════════════════════════════════════════════════════════════════════
-    //  BÚSQUEDA BINARIA  –  O(log n)  [requiere arreglo ordenado]
-    // ═════════════════════════════════════════════════════════════════════════
+    //BÚSQUEDA BINARIA  –  O(log n)  [requiere arreglo ordenado]
     public SearchResult binary(int[] array, int target) {
         long t0 = System.nanoTime();
         int lo = 0, hi = array.length - 1;
@@ -26,7 +24,7 @@ public class SearchEngine {
             if (array[mid] == target) {
                 result.steps.add(new SearchResult.Step(
                     mid, lo, hi, mid,
-                    "✅ ¡Encontrado! arr[" + mid + "] = " + target +
+                    "¡Encontrado! arr[" + mid + "] = " + target +
                     "  (rango [" + lo + "," + hi + "])", true));
                 found = mid;
                 break;
@@ -48,7 +46,7 @@ public class SearchEngine {
         if (found < 0) {
             result.steps.add(new SearchResult.Step(
                 -1, lo, hi, -1,
-                "🔍 No encontrado. Rango agotado.", false));
+                "No encontrado. Rango agotado.", false));
         }
 
         long nanos = System.nanoTime() - t0;
@@ -57,16 +55,14 @@ public class SearchEngine {
         }};
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    //  GENERADOR DE ARREGLOS
-    // ═════════════════════════════════════════════════════════════════════════
 
+    //GENERADOR DE ARREGLOS
     /** Arreglo ordenado con valores uniformemente distribuidos. */
     public static int[] generateSorted(int size, int maxVal) {
         int[] arr = new Random().ints(size, 1, maxVal + 1)
                                .distinct().limit(size).sorted().toArray();
         if (arr.length < size) {
-            // fallback si no hay suficientes distintos
+            //fallback si no hay suficientes distintos
             arr = new int[size];
             for (int i = 0; i < size; i++) arr[i] = (i + 1) * (maxVal / size);
         }
