@@ -16,9 +16,8 @@ public class Item {
     public double getRatio() { return (double)value / weight; }
 
     @Override
-    public String toString() { return name;
-
-    return String.format("%s (v=%d, w=%d, r=%.2f%)", name, value,weight, getRatio());
-
+    public String toString() {
+        return String.format("%s (v=%d, w=%d, r=%.2f)", name, value, weight, getRatio());
     }
-}
+    }
+
