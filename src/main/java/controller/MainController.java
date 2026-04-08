@@ -25,13 +25,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     @FXML
-    private Canvas binCanvas;
-
-    @FXML
     private Button btnBinAnimate;
-
-    @FXML
-    private Button btnBinClear;
 
     @FXML
     private Button btnBinGen;
@@ -41,9 +35,6 @@ public class MainController implements Initializable {
 
     @FXML
     private Label lblBinArray;
-
-    @FXML
-    private Label lblBinComplex;
 
     @FXML
     private Label lblBinComps;
@@ -77,6 +68,42 @@ public class MainController implements Initializable {
     private Timeline animation;
     private int[] binArray;
     private SearchResult binResult;
+    @FXML
+    private Label lblMonedaTotal11;
+    @FXML
+    private TableColumn colMonto;
+    @FXML
+    private Label lblMonedaTotal12;
+    @FXML
+    private Button btnCambioMonedas;
+    @FXML
+    private Label lblMonedaTotal121;
+    @FXML
+    private TableView tableMonedas;
+    @FXML
+    private Canvas canvasBin;
+    @FXML
+    private FlowPane flowMonedas;
+    @FXML
+    private Button btnLimpiarMonedas;
+    @FXML
+    private TableColumn colMoneda;
+    @FXML
+    private Button btnBinReset;
+    @FXML
+    private Label lblBinComplexity;
+    @FXML
+    private TableColumn colCantidad;
+    @FXML
+    private TextField txtMonto;
+    @FXML
+    private Slider sliderMonto;
+    @FXML
+    private ListView listMonedasSteps;
+    @FXML
+    private TableColumn colRestante;
+    @FXML
+    private Label lblMonedaTotal1;
 
 
     @Override
