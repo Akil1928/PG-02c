@@ -66,19 +66,48 @@ public class Greedy {
         //copiar y ordenar el arreglo por ratio v/w descendente
 
         Item[] sortedItems = items.clone();
-        Arrays.sort(sortedItems, (a, b) -> Double.compare(b.getRatio(), a.getRatio()));
-return null;
+       // Arrays.sort(sortedItems, (a, b) -> Double.compare(b.getRatio(), a.getRatio()));
+
+        bubbleSort(sortedItems);
+        List<Item> selected = new ArrayList<>();
+        double totalValue = 0;
+        int totalWeight = 0;
+        int remainingCapacity = mcapacity;
+        for(Item item : sortedItems) {
+            if(remainingCapacity <= 0)break;//romper bucle
+            if(item.getWeight() <= remainingCapacity) {
+                //puedo tomar el item y agregarlo en la mochila
+                selected.add(new Item(item.getName(), item.getWeight(), item.getValue()));
+                totalValue += item.getValue();
+                totalWeight += item.getWeight();
+                remainingCapacity -= item.getWeight();//resto el peso agregado
+            }
+        }
+
     }
 
-    public static void BubbleSort(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
+    public static void bubbleSort(Item[] arr) {
+        int n = arr.length;
+        boolean swapped;
+
+        // Outer loop for each pass
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false;
+
+            // Inner loop for comparing adjacent elements
+            // Subtract i because the last i elements are already sorted
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j].getRatio() < arr[j + 1].getRatio()) {
+                    // Swap elements
+                    Item temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
+                    swapped = true;
                 }
             }
+
+            // If no two elements were swapped by inner loop, then break
+            if (!swapped) break;
         }
     }
 }
