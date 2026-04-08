@@ -10,6 +10,7 @@ public class Item {
         this.value = value;
         this.weight = weight;
     }
+    //K
     public String getName() { return name; }
     public int getValue() { return value; }
     public int getWeight() { return weight; }
@@ -66,5 +67,4 @@ public class Item {
                 new Item("Item-4", 5, 16),
         };
     }
-    }
-
+}
