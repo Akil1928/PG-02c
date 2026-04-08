@@ -6,13 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import model.ArrayPainter;
 import model.SearchEngine;
 import model.SearchResult;
@@ -144,16 +139,16 @@ public class MainController implements Initializable {
             items.add(String.format("[%02d] %s", i + 1, step.description));
         }
         listBinSteps.setItems(items);
-        updateStats(lblBinResult, lblBinComps, lblBinTime, lblBinComplex, searchResult);
+        updateStats(lblBinResult, lblBinComps, lblBinTime, lblBinComplexity, searchResult);
 //agregamos la nimacion del canvas
         if (animate) {
-animateSearch(searchResult, binArray, binCanvas, progressBarBin, listBinSteps);
+animateSearch(searchResult, binArray, canvasBin, progressBarBin, listBinSteps);
         } else {
             //pintamos en el canvas
             boolean[] vis = buildVisited(searchResult.steps, binArray.length, searchResult.steps.size());
             SearchResult.Step last = searchResult.steps.isEmpty() ? null
                     : searchResult.steps.getLast();
-            arrayPainter.paint(binCanvas, binArray, last, vis, searchResult.foundIndex);
+            arrayPainter.paint(canvasBin, binArray, last, vis, searchResult.foundIndex);
             progressBarBin.setProgress(1.0);
 
         }
