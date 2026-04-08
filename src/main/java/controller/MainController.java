@@ -78,8 +78,6 @@ public class MainController implements Initializable {
     @FXML
     private Canvas canvasBin;
     @FXML
-    private FlowPane flowMonedas;
-    @FXML
     private Button btnLimpiarMonedas;
     @FXML
     private TableColumn colMoneda;
@@ -99,6 +97,8 @@ public class MainController implements Initializable {
     private TableColumn colRestante;
     @FXML
     private Label lblMonedaTotal1;
+    @FXML
+    private Canvas CanvasCoin;
 
 
     @Override
