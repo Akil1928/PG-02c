@@ -9,10 +9,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import model.ArrayPainter;
+import model.Greedy;
 import model.SearchEngine;
 import model.SearchResult;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -64,15 +66,9 @@ public class MainController implements Initializable {
     private int[] binArray;
     private SearchResult binResult;
     @FXML
-    private Label lblMonedaTotal11;
-    @FXML
     private TableColumn colMonto;
     @FXML
-    private Label lblMonedaTotal12;
-    @FXML
     private Button btnCambioMonedas;
-    @FXML
-    private Label lblMonedaTotal121;
     @FXML
     private TableView tableMonedas;
     @FXML
@@ -91,8 +87,6 @@ public class MainController implements Initializable {
     private ListView listMonedasSteps;
     @FXML
     private TableColumn colRestante;
-    @FXML
-    private Label lblMonedaTotal1;
     @FXML
     private Canvas CanvasCoin;
     @FXML
@@ -113,6 +107,21 @@ public class MainController implements Initializable {
         sliderCoinAmount.setValue(787);
         sliderCoinAmount.valueProperty().addListener((o, ov, nv) -> txtCoinValue.setText(String.valueOf(nv.intValue())));
         txtCoinValue.setText(String.valueOf(sliderCoinAmount.getValue()));
+        btnCambioMonedas.setOnAction(event -> generateCoinChange());
+    }
+
+    private void generateCoinChange() {
+        int monto=Integer.parseInt(txtCoinValue.getText());
+        //tablleview
+        listMonedasSteps.getItems().clear();
+        List<String> coinList = Collections.singletonList(Greedy.coinChangeString(monto));
+        ObservableList<String> items = FXCollections.observableArrayList();
+        for (int i = 0; i < coinList.size();i++) {
+            items.add(String.format("[%02d] %s", i + 1, coinList.get(i)));
+
+        }
+        items.add("Monto total: "+monto+" | Monedas: "+coinList.size());
+        listMonedasSteps.setItems(items);
     }
 
     private void setupBinTab() {

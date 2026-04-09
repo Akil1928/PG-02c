@@ -241,31 +241,6 @@
                                             </placeholder>
                                         </ListView>
 
-                                        <HBox prefHeight="28.0" prefWidth="283.0">
-                                            <children>
-                                                <Label fx:id="lblMonedaTotal1" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Monto Total:">
-                                                    <padding>
-                                                        <Insets left="4.0" top="2.0" />
-                                                    </padding>
-                                                </Label>
-                                                <Label fx:id="lblMonedaTotal11" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="--">
-                                                    <padding>
-                                                        <Insets left="4.0" top="2.0" />
-                                                    </padding>
-                                                </Label>
-                                                <Label fx:id="lblMonedaTotal12" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Monedas">
-                                                    <padding>
-                                                        <Insets left="4.0" top="2.0" />
-                                                    </padding>
-                                                </Label>
-                                                <Label fx:id="lblMonedaTotal121" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="--">
-                                                    <padding>
-                                                        <Insets left="4.0" top="2.0" />
-                                                    </padding>
-                                                </Label>
-                                            </children>
-                                        </HBox>
-
                                         <VBox spacing="4.0" style="-fx-background-color: #1F3868; -fx-background-radius: 4; -fx-padding: 10;">
                                             <children>
                                                 <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: white;" text="Denominaciones de monedas en colones" />

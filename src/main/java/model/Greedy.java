@@ -43,6 +43,7 @@ public class Greedy {
         return result.toString();
     }
 
+
     public static class KnapsackResult {
         public final Item[] sortedItems; //lista inicial de articulos
         public final List<Item> selected; //elementos agregados a la mochila
