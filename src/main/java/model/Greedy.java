@@ -14,32 +14,34 @@ public class Greedy {
         private int amount;
         private int remaining;
 
-        public Coin(int coin, int quantity, int amount, int remaining) {
-            this.coin = coin;
-            this.quantity = quantity;
-            this.amount = amount;
-            this.remaining = remaining;
-        }
-
-        @Override
-        public String toString() {
-           return String.format("%d x %d = %d (remaining %d)", coin, quantity, amount, remaining);
-        }
-
-        public int getCoin() {
-            return coin;
-        }
-
-        public int getQuantity() {
-            return quantity;
+        public int getRemaining() {
+            return remaining;
         }
 
         public int getAmount() {
             return amount;
         }
 
-        public int getRemaining() {
-            return remaining;
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public int getCoin() {
+            return coin;
+        }
+
+        public Coin(int coin, int quantity, int amount, int remaining) {
+            this.coin = coin;
+            this.quantity = quantity;
+            this.amount = amount;
+            this.remaining = remaining;
+
+
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%d x %d = %d (remaining %d)", coin, quantity, amount, remaining);
         }
     }
     public static List<Integer> coinChange(int monto) {

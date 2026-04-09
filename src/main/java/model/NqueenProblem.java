@@ -39,9 +39,8 @@ public class NqueenProblem {
         return false;
     }
 
-    //COLOCA LAS REINAS RESTANTES FILA POR FILA
-
     private boolean placeQueens(int[][] board, int row) {
+
         //Caso base: todas las reinas colocadas
         if (row == board.length) return true;
 
