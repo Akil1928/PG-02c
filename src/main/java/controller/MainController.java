@@ -103,7 +103,16 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setupBinTab();
+        setupBinTab(); //TAB 1 - BINARIA
+        setupCoinTab(); //TAB 2 - MONEDA
+    }
+
+    private void setupCoinTab() {
+        sliderMonto.setMin(100);
+        sliderMonto.setMax(5000);
+        sliderMonto.setValue(787);
+        sliderMonto.valueProperty().addListener((o, ov, nv) -> txtMonto.setText(String.valueOf(nv.intValue())));
+        txtMonto.setText(String.valueOf(sliderMonto.getValue()));
     }
 
     private void setupBinTab() {
@@ -142,7 +151,7 @@ public class MainController implements Initializable {
         updateStats(lblBinResult, lblBinComps, lblBinTime, lblBinComplexity, searchResult);
 //agregamos la nimacion del canvas
         if (animate) {
-animateSearch(searchResult, binArray, canvasBin, progressBarBin, listBinSteps);
+            animateSearch(searchResult, binArray, canvasBin, progressBarBin, listBinSteps);
         } else {
             //pintamos en el canvas
             boolean[] vis = buildVisited(searchResult.steps, binArray.length, searchResult.steps.size());
