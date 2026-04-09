@@ -7,10 +7,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
-/**
- * Dibuja las monedas costarricenses en un Canvas,
- * mostrando cantidad (badge rojo) y colores reales por denominación.
- */
 public class CoinPainter {
 
     // ── Configuración visual ────────────────────────────────────────────────
@@ -57,14 +53,7 @@ public class CoinPainter {
         };
     }
 
-    /**
-     * Pinta todas las monedas que tienen cantidad > 0.
-     *
-     * @param canvas   El Canvas fx:id="CanvasCoin" del FXML
-     * @param amounts  Array paralelo a COINS con la cantidad de cada moneda
-     *                 amounts[0]=cant500, [1]=cant100, [2]=cant25,
-     *                 [3]=cant10,  [4]=cant5,   [5]=cant1
-     */
+
     public static void paint(Canvas canvas, int[] amounts) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 

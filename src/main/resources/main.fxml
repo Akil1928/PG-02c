@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
@@ -26,6 +27,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="736.0" prefWidth="902.0" styleClass="root-pane" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
 
+    <!-- ═══════ HEADER ═══════ -->
     <top>
         <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="902.0" spacing="6.0" styleClass="header-bar" BorderPane.alignment="CENTER">
             <padding><Insets bottom="18.0" left="32.0" right="32.0" top="18.0" /></padding>
@@ -45,10 +47,14 @@
         </VBox>
     </top>
 
+    <!-- ═══════ CENTER ═══════ -->
     <center>
         <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" styleClass="main-tabs" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
 
+                <!-- ════════════════════════════════════════
+                     TAB 1 · BINARIA (sin cambios)
+                ═════════════════════════════════════════ -->
                 <Tab text="Binaria">
                     <content>
                         <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
@@ -93,7 +99,6 @@
                                         </HBox>
                                     </children>
                                 </VBox>
-
                                 <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="panel">
                                     <children>
                                         <Label styleClass="action-label" text="Parámetros" />
@@ -175,6 +180,9 @@
                     </content>
                 </Tab>
 
+                <!-- ════════════════════════════════════════
+                     TAB 2 · N-REINAS (sin cambios)
+                ═════════════════════════════════════════ -->
                 <Tab text="N-Reinas">
                     <content>
                         <SplitPane dividerPositions="0.65" prefHeight="200.0" prefWidth="200.0">
@@ -187,23 +195,18 @@
                                         </StackPane>
                                     </children>
                                 </VBox>
-
                                 <VBox prefWidth="300.0" spacing="15.0" styleClass="panel">
-                                    <padding>
-                                        <Insets bottom="15" left="15" right="15" top="15" />
-                                    </padding>
+                                    <padding><Insets bottom="15" left="15" right="15" top="15" /></padding>
                                     <children>
                                         <Label styleClass="action-label" text="Configuración" />
                                         <HBox spacing="10">
                                             <children>
-                                                <ToggleButton fx:id="toggle4x4" maxWidth="Infinity" selected="true" style="-fx-alignment: #66ccff;" text="4 x 4" HBox.hgrow="ALWAYS" />
-                                                <ToggleButton fx:id="toggle8x8" maxWidth="Infinity" style="-fx-alignment: #66ccff;" text="8 x 8" HBox.hgrow="ALWAYS" />
+                                                <ToggleButton fx:id="toggle4x4" maxWidth="Infinity" selected="true" text="4 x 4" HBox.hgrow="ALWAYS" />
+                                                <ToggleButton fx:id="toggle8x8" maxWidth="Infinity" text="8 x 8" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
-
                                         <Label styleClass="param-label" text="Velocidad:" />
                                         <Slider fx:id="sliderQueenSpeed" max="10" min="1" value="5" />
-
                                         <HBox spacing="8.0">
                                             <children>
                                                 <Button fx:id="btnQueenResolve" maxWidth="Infinity" styleClass="btn-primary" text="Resolver" HBox.hgrow="ALWAYS" />
@@ -216,7 +219,6 @@
                                                 <Button fx:id="btnQueenClear" maxWidth="Infinity" styleClass="btn-ghost" text="Limpiar" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
-
                                         <Label styleClass="stat-label" text="Estadísticas de Backtracking" />
                                         <VBox styleClass="stat-card">
                                             <children>
@@ -224,7 +226,6 @@
                                                 <Label fx:id="lblQueenCalls" styleClass="stat-value" text="0" />
                                             </children>
                                         </VBox>
-
                                         <Label styleClass="section-label" text="Registro de Pasos" />
                                         <ListView fx:id="listQueenSteps" styleClass="steps-list" VBox.vgrow="ALWAYS" />
                                     </children>
@@ -234,6 +235,9 @@
                     </content>
                 </Tab>
 
+                <!-- ════════════════════════════════════════
+                     TAB 3 · MONEDAS (sin cambios)
+                ═════════════════════════════════════════ -->
                 <Tab text="Monedas">
                     <content>
                         <SplitPane dividerPositions="0.66" prefHeight="636.0" prefWidth="902.0">
@@ -244,7 +248,6 @@
                                             <children>
                                                 <Label styleClass="panel-title" text="Cambio de monedas . Solución con la Técnica Algoritmos Voraces (Greedy)" />
                                                 <Canvas fx:id="CanvasCoin" height="304.0" width="558.0" />
-
                                                 <TableView fx:id="tableViewCoin" prefHeight="220.0" prefWidth="560.0" style="-fx-background-color: white; -fx-border-color: #E8ECF2; -fx-border-radius: 4; -fx-font-size: 12px;">
                                                     <columns>
                                                         <TableColumn fx:id="colMoneda" prefWidth="130.0" text="Moneda" />
@@ -257,56 +260,35 @@
                                         </VBox>
                                     </content>
                                 </ScrollPane>
-
                                 <VBox prefWidth="307.0" spacing="10.0" style="-fx-background-color: #F4F6FA;">
-                                    <padding>
-                                        <Insets bottom="16.0" left="10.0" right="10.0" top="10.0" />
-                                    </padding>
+                                    <padding><Insets bottom="16.0" left="10.0" right="10.0" top="10.0" /></padding>
                                     <children>
                                         <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Parámetros">
-                                            <padding>
-                                                <Insets left="4.0" />
-                                            </padding>
+                                            <padding><Insets left="4.0" /></padding>
                                         </Label>
-
                                         <Slider fx:id="sliderCoinAmount" blockIncrement="0.0" majorTickUnit="1000" max="0.0" showTickLabels="true" showTickMarks="true">
-                                            <padding>
-                                                <Insets left="4.0" right="4.0" />
-                                            </padding>
+                                            <padding><Insets left="4.0" right="4.0" /></padding>
                                         </Slider>
-
                                         <HBox alignment="CENTER_LEFT" spacing="8.0">
-                                            <padding>
-                                                <Insets left="4.0" />
-                                            </padding>
+                                            <padding><Insets left="4.0" /></padding>
                                             <children>
                                                 <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Monto en ₡:" />
                                                 <TextField fx:id="txtCoinValue" prefHeight="26.0" prefWidth="145.0" style="-fx-font-size: 13px;" />
                                             </children>
                                         </HBox>
-
                                         <HBox spacing="8.0">
-                                            <padding>
-                                                <Insets left="4.0" />
-                                            </padding>
+                                            <padding><Insets left="4.0" /></padding>
                                             <children>
                                                 <Button fx:id="btnCoinChange" mnemonicParsing="false" styleClass="btn-primary" text="Cambio de monedas" />
                                                 <Button fx:id="btnLimpiarMonedas" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" />
                                             </children>
                                         </HBox>
-
                                         <Label styleClass="section-label" text="Pasos de ejecución">
-                                            <padding>
-                                                <Insets left="4.0" top="4.0" />
-                                            </padding>
+                                            <padding><Insets left="4.0" top="4.0" /></padding>
                                         </Label>
-
                                         <ListView fx:id="listCoinSteps" prefHeight="235.0" prefWidth="290.0" styleClass="steps-list">
-                                            <placeholder>
-                                                <Label style="-fx-text-fill: #8896A5; -fx-font-size: 11px;" />
-                                            </placeholder>
+                                            <placeholder><Label style="-fx-text-fill: #8896A5; -fx-font-size: 11px;" /></placeholder>
                                         </ListView>
-
                                         <VBox spacing="4.0" style="-fx-background-color: #1F3868; -fx-background-radius: 4; -fx-padding: 10;">
                                             <children>
                                                 <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: white;" text="Denominaciones de monedas en colones" />
@@ -315,6 +297,125 @@
                                         </VBox>
                                     </children>
                                 </VBox>
+                            </items>
+                        </SplitPane>
+                    </content>
+                </Tab>
+
+                <!-- ════════════════════════════════════════
+                     TAB 4 · MOCHILA  (NUEVO)
+                ═════════════════════════════════════════ -->
+                <Tab text="Mochila">
+                    <content>
+                        <SplitPane dividerPositions="0.62" prefHeight="636.0" prefWidth="902.0">
+                            <items>
+
+                                <!-- ── PANEL IZQUIERDO: Canvas mochila + resumen ── -->
+                                <ScrollPane fitToHeight="true" fitToWidth="true">
+                                    <content>
+                                        <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 16;">
+                                            <children>
+
+                                                <!-- Títulos -->
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Mochila Fraccional – Algoritmo Voraz" />
+                                                <Label style="-fx-font-size: 11px; -fx-text-fill: #4A90D9;" text="O(n log n). Solución con la Técnica Algoritmo de Greedy (Voraz)" />
+                                                <Label style="-fx-font-size: 11px; -fx-text-fill: #8896A5;" text="Ordenar por ratio v/w → tomar ítem completo o fracción" />
+
+                                                <!-- Canvas donde se dibuja la mochila con barras -->
+                                                <Canvas fx:id="canvasKnapsack" height="380.0" style="-fx-background-color: white;" width="520.0" />
+
+                                                <!-- Resumen -->
+                                                <VBox spacing="6.0" style="-fx-background-color: #F4F6FA; -fx-padding: 12; -fx-background-radius: 6; -fx-border-color: #E8ECF2; -fx-border-radius: 6;">
+                                                    <children>
+                                                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Resumen Mochila:" />
+                                                        <Label fx:id="lblResumenCapacidad" style="-fx-font-size: 12px; -fx-text-fill: #0D1B4B;" text="Capacidad Máx: --" />
+                                                        <Label fx:id="lblResumenPeso" style="-fx-font-size: 12px; -fx-text-fill: #2E5FAC; -fx-font-weight: bold;" text="Peso Actual: --" />
+                                                        <Label fx:id="lblResumenValor" style="-fx-font-size: 12px; -fx-text-fill: #1A8C7B; -fx-font-weight: bold;" text="Valor Total: --" />
+                                                    </children>
+                                                </VBox>
+
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </ScrollPane>
+
+                                <!-- ── PANEL DERECHO: Configuración + pasos ── -->
+                                <VBox prefWidth="340.0" spacing="10.0" style="-fx-background-color: #F4F6FA;">
+                                    <padding><Insets bottom="16.0" left="12.0" right="12.0" top="12.0" /></padding>
+                                    <children>
+
+                                        <!-- Configuración -->
+                                        <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #4A90D9;" text="Configuración">
+                                            <padding><Insets left="4.0" /></padding>
+                                        </Label>
+
+                                        <!-- ComboBox paquetes -->
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <padding><Insets left="4.0" /></padding>
+                                            <children>
+                                                <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Paquetes" />
+                                                <ComboBox fx:id="comboKnapsackPackage" prefWidth="200.0" promptText="Seleccionar paquete" />
+                                            </children>
+                                        </HBox>
+
+                                        <!-- Cap W -->
+                                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                            <padding><Insets left="4.0" /></padding>
+                                            <children>
+                                                <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Cap W =" />
+                                                <Label fx:id="lblCapKnapsack" style="-fx-background-color: #0D1B4B; -fx-text-fill: #E8A020; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 2 14 2 14; -fx-background-radius: 4;" text="12" />
+                                            </children>
+                                        </HBox>
+
+                                        <!-- Slider capacidad -->
+                                        <Slider fx:id="sliderKnapsack" blockIncrement="1" majorTickUnit="5" max="20" min="2" showTickLabels="true" showTickMarks="true" value="12">
+                                            <padding><Insets left="4.0" right="4.0" /></padding>
+                                        </Slider>
+
+                                        <!-- Botones -->
+                                        <HBox spacing="8.0">
+                                            <padding><Insets left="4.0" /></padding>
+                                            <children>
+                                                <Button fx:id="btnSolveKnapsack" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-primary" text="Resolver Greedy" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="btnResetKnapsack" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" HBox.hgrow="ALWAYS" />
+                                            </children>
+                                        </HBox>
+
+                                        <!-- Valor óptimo -->
+                                        <VBox spacing="2.0" style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 6; -fx-border-color: #E8ECF2; -fx-border-radius: 6;">
+                                            <children>
+                                                <Label style="-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #8896A5;" text="VALOR ÓPTIMO FRACCIONAL" />
+                                                <Label fx:id="lblKnapsackOptimal" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Valor óptimo: --" />
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Tiempo -->
+                                        <VBox spacing="2.0" style="-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 6; -fx-border-color: #E8ECF2; -fx-border-radius: 6;">
+                                            <children>
+                                                <Label style="-fx-font-size: 9px; -fx-font-weight: bold; -fx-text-fill: #8896A5;" text="TIEMPO DE EJECUCIÓN" />
+                                                <Label fx:id="lblKnapsackTime" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="--" />
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Pasos del algoritmo -->
+                                        <Label style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Pasos del algoritmo Greedy">
+                                            <padding><Insets left="4.0" top="4.0" /></padding>
+                                        </Label>
+
+                                        <ListView fx:id="listStepsKnapsack" prefHeight="200.0" prefWidth="316.0" styleClass="steps-list" VBox.vgrow="ALWAYS" />
+
+                                        <!-- Info box -->
+                                        <VBox spacing="4.0" style="-fx-background-color: #1F3868; -fx-background-radius: 4; -fx-padding: 10;">
+                                            <children>
+                                                <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: white;" text="💡 Mochila – Voraz" />
+                                                <Label style="-fx-font-size: 10px; -fx-text-fill: #ADBDD4;" text="• Estrategia: mayor ratio v/w primero" />
+                                                <Label style="-fx-font-size: 10px; -fx-text-fill: #ADBDD4;" text="• O(n log n) por el ordenamiento" />
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </VBox>
+
                             </items>
                         </SplitPane>
                     </content>

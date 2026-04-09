@@ -17,6 +17,9 @@ import model.Greedy;
 import model.NqueenProblem;
 import model.SearchEngine;
 import model.SearchResult;
+import javafx.scene.control.ComboBox;
+import model.Item;
+import model.KnapsackPainter;
 
 import java.net.URL;
 import java.util.*;
@@ -144,12 +147,37 @@ public class MainController implements Initializable {
     private Button btnQueenResolve;
 
     private final NqueenProblem nQueenSolver = new NqueenProblem();
+    @FXML
+    private Canvas canvasKnapsack;
+    @FXML
+    private Label lblKnapsackOptimal;
+    @FXML
+    private ListView listStepsKnapsack;
+    @FXML
+    private ComboBox comboKnapsackPackage;
+    @FXML
+    private Label lblResumenValor;
+    @FXML
+    private Slider sliderKnapsack;
+    @FXML
+    private Button btnSolveKnapsack;
+    @FXML
+    private Button btnResetKnapsack;
+    @FXML
+    private Label lblResumenCapacidad;
+    @FXML
+    private Label lblResumenPeso;
+    @FXML
+    private Label lblCapKnapsack;
+    @FXML
+    private Label lblKnapsackTime;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupBinTab(); //TAB 1 - BINARIA
         setupCoinTab(); //TAB 2 - MONEDA
         setupQueenTab(); //TAB 3 - NQUEEN
+        setupKnapsackTab();
     }
 
     private void setupQueenTab() { // TAB 3 NQueen
@@ -420,8 +448,40 @@ public class MainController implements Initializable {
         btnBinGen.setOnAction(event -> generateBin());
         btnBinSearch.setOnAction(event -> runSearch(false));
         btnBinAnimate.setOnAction(event -> runSearch(true));
+        btnBinReset.setOnAction(event -> resetBinarySearch());
+
     }
 
+    private void resetBinarySearch() {
+        // Limpiar resultados
+        binResult = null;
+        binArray = null;
+
+        // Limpiar canvas
+        javafx.scene.canvas.GraphicsContext gc = canvasBin.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvasBin.getWidth(), canvasBin.getHeight());
+
+        // Limpiar lista de pasos
+        listBinSteps.getItems().clear();
+
+        // Resetear labels
+        lblBinArray.setText("");
+        lblBinResult.setText("--");
+        lblBinResult.setStyle("");
+        lblBinComps.setText("--");
+        lblBinComps.setStyle("");
+        lblBinTime.setText("--");
+        lblBinTime.setStyle("");
+        lblBinComplexity.setText("--");
+        lblBinComplexity.setStyle("");
+
+        // Resetear progress bar
+        progressBarBin.setProgress(0);
+
+        // Limpiar campo de búsqueda
+        txtBinValue.setText("");
+        txtBinValue.setStyle("");
+    }
     private void runSearch(boolean animate) {
         if (binArray == null) {
             showError(txtBinValue, "Primero genere un arreglo");
@@ -463,7 +523,37 @@ public class MainController implements Initializable {
     }
 
     private void animateSearch(SearchResult searchResult, int[] binArray, Canvas binCanvas, ProgressBar progressBarBin, ListView<String> listBinSteps) {
+        // ✅ IMPLEMENTAR: Animación de búsqueda binaria
+        if (searchResult == null || searchResult.steps.isEmpty()) return;
 
+        Timeline timeline = new Timeline();
+        int totalSteps = searchResult.steps.size();
+
+        for (int i = 0; i < totalSteps; i++) {
+            final int stepIndex = i;
+            final SearchResult.Step step = searchResult.steps.get(stepIndex);
+
+            javafx.animation.KeyFrame frame = new javafx.animation.KeyFrame(
+                    javafx.util.Duration.millis(600 * (stepIndex + 1)),
+                    e -> {
+                        // Pintar el canvas con el estado actual
+                        boolean[] visited = buildVisited(searchResult.steps, binArray.length, stepIndex + 1);
+                        arrayPainter.paint(binCanvas, binArray, step, visited, searchResult.foundIndex);
+
+                        // Actualizar progress bar
+                        double progress = (double)(stepIndex + 1) / totalSteps;
+                        progressBarBin.setProgress(progress);
+
+                        // Highlight del paso actual en el ListView
+                        listBinSteps.scrollTo(stepIndex);
+                        listBinSteps.getSelectionModel().select(stepIndex);
+                    }
+            );
+
+            timeline.getKeyFrames().add(frame);
+        }
+
+        timeline.play();
     }
 
     private void updateStats(Label lblBinResult, Label lblBinComps, Label lblBinTime, Label lblBinComplex, SearchResult searchResult) {
@@ -562,4 +652,89 @@ public class MainController implements Initializable {
         s.valueProperty().addListener((o, ov, nv) -> lbl.setText(String.valueOf(nv.intValue())));
         lbl.setText(String.valueOf(val));
     }
+    private void setupKnapsackTab() {
+
+        // Paquetes disponibles
+        comboKnapsackPackage.getItems().addAll(
+                "Package No.1 (12 items)",
+                "Package No.2 (7 items)",
+                "Package No.3 (4 items)",
+                "Package No.4 (4 items)"
+        );
+        comboKnapsackPackage.setValue("Package No.1 (12 items)");
+
+        // Slider capacidad
+        sliderKnapsack.setMin(2);
+        sliderKnapsack.setMax(20);
+        sliderKnapsack.setValue(12);
+        sliderKnapsack.setMajorTickUnit(5);
+        sliderKnapsack.setSnapToTicks(false);
+        sliderKnapsack.valueProperty().addListener((obs, oldV, newV) ->
+                lblCapKnapsack.setText(String.valueOf(newV.intValue()))
+        );
+        lblCapKnapsack.setText("12");
+
+        // Botón Resolver
+        btnSolveKnapsack.setOnAction(e -> solveKnapsack());
+
+        // Botón Limpiar
+        btnResetKnapsack.setOnAction(e -> {
+            KnapsackPainter.clear(canvasKnapsack);
+            listStepsKnapsack.getItems().clear();
+            lblKnapsackOptimal.setText("Valor óptimo: --");
+            lblKnapsackTime.setText("--");
+            lblResumenCapacidad.setText("Capacidad Máx: --");
+            lblResumenPeso.setText("Peso Actual: --");
+            lblResumenValor.setText("Valor Total: --");
+        });
+    }
+    private void solveKnapsack() {
+
+        // Obtener paquete seleccionado
+        String selected = comboKnapsackPackage.getValue().toString();
+        Item[] items;
+        if      (selected.contains("No.1")) items = Item.Package1();
+        else if (selected.contains("No.2")) items = Item.Package2();
+        else if (selected.contains("No.3")) items = Item.Package3();
+        else                                items = Item.Package4();
+
+        int capacity = (int) sliderKnapsack.getValue();
+
+        // Resolver con Greedy
+        Greedy.KnapsackResult result = Greedy.knapsackSolve(items, capacity);
+
+        // ── Pintar canvas ──────────────────────────────────────────────────
+        KnapsackPainter.paint(canvasKnapsack, result.selected, capacity);
+
+        // ── Resumen ────────────────────────────────────────────────────────
+        lblResumenCapacidad.setText(String.format("Capacidad Máx: %.1fkg", (double) capacity));
+        lblResumenPeso.setText(String.format("Peso Actual: %.2fkg", result.maxWeight));
+        lblResumenValor.setText(String.format("Valor Total: ₡%.2f", result.maxValue));
+
+        // ── Estadísticas derecha ───────────────────────────────────────────
+        lblKnapsackOptimal.setText(String.format("Valor óptimo: %.2f", result.maxValue));
+        double ms = result.nanoTime / 1_000_000.0;
+        lblKnapsackTime.setText(String.format("%.4f ms", ms));
+
+        // ── Llenar ListView de pasos ───────────────────────────────────────
+        javafx.collections.ObservableList<String> steps =
+                javafx.collections.FXCollections.observableArrayList();
+
+        // -- Sección 1: ítems ordenados por ratio
+        for (Item it : result.sortedItems) {
+            steps.add(String.format("  %s  r=%.2f", it.getName(), it.getRatio()));
+        }
+        steps.add("─────────────────────────────────────");
+
+        // -- Sección 2: decisiones Greedy
+        steps.add("Greedy – llenar mochila:");
+        for (Item it : result.selected) {
+            steps.add(String.format("  ✓ Tomar 100%% de '%s'  → +%d",
+                    it.getName(), it.getValue()));
+        }
+
+        listStepsKnapsack.setItems(steps);
+    }
+
+
 }

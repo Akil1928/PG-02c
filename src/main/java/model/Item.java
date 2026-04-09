@@ -23,48 +23,48 @@ public class Item {
 
     public static Item[] Package1() {
         return new Item[]{
-                new Item("Smart TV 65 pulg 4k", 20, 1000),
-                new Item("PS5", 2, 600),
-                new Item("Libro Java", 1, 20),
-                new Item("Samsung Galaxy", 1, 700),
-                new Item("Huawei", 1, 400),
-                new Item("Libro C++", 1, 25),
-                new Item("Xbox One", 2, 500),
-                new Item("Drone", 3, 500),
-                new Item("Proyector", 3, 200),
-                new Item("LapTop", 3, 800),
-                new Item("Impresora 3D", 4, 800),
-                new Item("iPhone", 1, 800),
+                new Item("Smart TV 65 pulg 4k", 1000, 20),
+                new Item("PS5", 600, 2),
+                new Item("Libro Java", 20, 1),
+                new Item("Samsung Galaxy", 700, 1),
+                new Item("Huawei", 400, 1),
+                new Item("Libro C++", 25, 1),
+                new Item("Xbox One", 500, 2),
+                new Item("Drone", 500, 3),
+                new Item("Proyector", 200, 3),
+                new Item("LapTop", 800, 3),
+                new Item("Impresora 3D", 800, 4),
+                new Item("iPhone", 800, 1),
         };
     }
 
     public static Item[] Package2() {
         return new Item[]{
-                new Item("Laptop",    3, 4),
-                new Item("Libro",     1, 3),
-                new Item("Cámara",    2, 5),
-                new Item("Tablet",    2, 4),
-                new Item("Audífonos", 1, 2),
+                new Item("Laptop",    4, 3),
+                new Item("Libro",     3, 1),
+                new Item("Cámara",    5, 2),
+                new Item("Tablet",    4, 2),
+                new Item("Audífonos", 2, 1),
                 new Item("Cargador",  1, 1),
-                new Item("Mochila",   4, 6),
+                new Item("Mochila",   6, 4),
         };
     }
 
     public static Item[] Package3() {
         return new Item[]{
-                new Item("A", 2, 3),
-                new Item("B", 3, 4),
-                new Item("C", 4, 5),
-                new Item("D", 5, 6),
+                new Item("A", 3, 2),
+                new Item("B", 4, 3),
+                new Item("C", 5, 4),
+                new Item("D", 6, 5),
         };
     }
 
     public static Item[] Package4() {
         return new Item[]{
                 new Item("Item-1", 1, 1),
-                new Item("Item-2", 2, 6),
-                new Item("Item-3", 3, 10),
-                new Item("Item-4", 5, 16),
+                new Item("Item-2", 6, 2),
+                new Item("Item-3", 10, 3),
+                new Item("Item-4", 16, 5),
         };
     }
 }

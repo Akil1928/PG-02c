@@ -128,7 +128,7 @@ public class Greedy {
             if (remainingCapacity <= 0) break;//romper bucle
             if (item.getWeight() <= remainingCapacity) {
                 //puedo tomar el item y agregarlo en la mochila
-                selected.add(new Item(item.getName(), item.getWeight(), item.getValue()));
+                selected.add(new Item(item.getName(), item.getValue(), item.getWeight()));
                 totalValue += item.getValue();
                 totalWeight += item.getWeight();
                 remainingCapacity -= item.getWeight();//resto el peso agregado
@@ -136,7 +136,6 @@ public class Greedy {
         }
         return new KnapsackResult(sortedItems, selected, totalValue, totalWeight, mcapacity, System.nanoTime() - t1);
     }
-
     public static void bubbleSort(Item[] arr) {
         int n = arr.length;
         boolean swapped;
