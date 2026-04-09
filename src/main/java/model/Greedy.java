@@ -43,6 +43,17 @@ public class Greedy {
         return result.toString();
     }
 
+    public static List<String> coinChange2(int monto) {
+        List<String> usadas = new ArrayList<>();
+        for (int moneda : monedas) {
+            while (monto >= moneda) {
+                usadas.add(String.format("%d", moneda));
+                monto -= moneda;
+            }
+        }
+        return usadas;
+    }
+
 
     public static class KnapsackResult {
         public final Item[] sortedItems; //lista inicial de articulos

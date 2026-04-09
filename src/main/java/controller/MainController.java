@@ -68,8 +68,6 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn colMonto;
     @FXML
-    private Button btnCambioMonedas;
-    @FXML
     private TableView tableMonedas;
     @FXML
     private Canvas canvasBin;
@@ -84,8 +82,6 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn colCantidad;
     @FXML
-    private ListView listMonedasSteps;
-    @FXML
     private TableColumn colRestante;
     @FXML
     private Canvas CanvasCoin;
@@ -93,6 +89,10 @@ public class MainController implements Initializable {
     private Slider sliderCoinAmount;
     @FXML
     private TextField txtCoinValue;
+    @FXML
+    private ListView listCoinSteps;
+    @FXML
+    private Button btnCoinChange;
 
 
     @Override
@@ -105,23 +105,28 @@ public class MainController implements Initializable {
         sliderCoinAmount.setMin(100);
         sliderCoinAmount.setMax(5000);
         sliderCoinAmount.setValue(787);
-        sliderCoinAmount.valueProperty().addListener((o, ov, nv) -> txtCoinValue.setText(String.valueOf(nv.intValue())));
-        txtCoinValue.setText(String.valueOf(sliderCoinAmount.getValue()));
-        btnCambioMonedas.setOnAction(event -> generateCoinChange());
+        sliderCoinAmount.setMajorTickUnit(5);
+        sliderCoinAmount.setSnapToTicks(false);
+        sliderCoinAmount.valueProperty().addListener((observable, oldValue, newValue) -> {
+            txtCoinValue.setText(String.valueOf(newValue.intValue()));
+        });
+        btnCoinChange.setOnAction(event -> generateCoinChange());
+
     }
 
     private void generateCoinChange() {
-        int monto=Integer.parseInt(txtCoinValue.getText());
-        //tablleview
-        listMonedasSteps.getItems().clear();
+        int monto = Integer.parseInt(txtCoinValue.getText().trim());
+        //tableview
+        listCoinSteps.getItems().clear();
         List<String> coinList = Collections.singletonList(Greedy.coinChangeString(monto));
+        //llenamos el ListView
         ObservableList<String> items = FXCollections.observableArrayList();
-        for (int i = 0; i < coinList.size();i++) {
-            items.add(String.format("[%02d] %s", i + 1, coinList.get(i)));
-
+        for (int i = 0; i < coinList.size(); i++) {
+            items.add(String.format("[%02d] %s", i+1, coinList.get(i)));
         }
-        items.add("Monto total: "+monto+" | Monedas: "+coinList.size());
-        listMonedasSteps.setItems(items);
+        items.add("Monto total: "+monto+"  |  Monedas: "+Greedy.coinChange(monto).size());
+        listCoinSteps.setItems(items);
+
     }
 
     private void setupBinTab() {

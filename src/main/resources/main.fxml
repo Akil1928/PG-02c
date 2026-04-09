@@ -226,7 +226,7 @@
                                         <HBox spacing="8.0">
                                             <padding><Insets left="4.0" /></padding>
                                             <children>
-                                                <Button fx:id="btnCambioMonedas" mnemonicParsing="false" styleClass="btn-primary" text="Cambio de monedas" />
+                                                <Button fx:id="btnCoinChange" mnemonicParsing="false" styleClass="btn-primary" text="Cambio de monedas" />
                                                 <Button fx:id="btnLimpiarMonedas" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" />
                                             </children>
                                         </HBox>
@@ -235,7 +235,7 @@
                                             <padding><Insets left="4.0" top="4.0" /></padding>
                                         </Label>
 
-                                        <ListView fx:id="listMonedasSteps" prefHeight="235.0" prefWidth="290.0" styleClass="steps-list">
+                                        <ListView fx:id="listCoinSteps" prefHeight="235.0" prefWidth="290.0" styleClass="steps-list">
                                             <placeholder>
                                                 <Label style="-fx-text-fill: #8896A5; -fx-font-size: 11px;" />
                                             </placeholder>
