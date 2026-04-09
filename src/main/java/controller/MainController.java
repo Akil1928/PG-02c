@@ -88,10 +88,6 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn colCantidad;
     @FXML
-    private TextField txtMonto;
-    @FXML
-    private Slider sliderMonto;
-    @FXML
     private ListView listMonedasSteps;
     @FXML
     private TableColumn colRestante;
@@ -99,6 +95,10 @@ public class MainController implements Initializable {
     private Label lblMonedaTotal1;
     @FXML
     private Canvas CanvasCoin;
+    @FXML
+    private Slider sliderCoinAmount;
+    @FXML
+    private TextField txtCoinValue;
 
 
     @Override
@@ -108,11 +108,11 @@ public class MainController implements Initializable {
     }
 
     private void setupCoinTab() {
-        sliderMonto.setMin(100);
-        sliderMonto.setMax(5000);
-        sliderMonto.setValue(787);
-        sliderMonto.valueProperty().addListener((o, ov, nv) -> txtMonto.setText(String.valueOf(nv.intValue())));
-        txtMonto.setText(String.valueOf(sliderMonto.getValue()));
+        sliderCoinAmount.setMin(100);
+        sliderCoinAmount.setMax(5000);
+        sliderCoinAmount.setValue(787);
+        sliderCoinAmount.valueProperty().addListener((o, ov, nv) -> txtCoinValue.setText(String.valueOf(nv.intValue())));
+        txtCoinValue.setText(String.valueOf(sliderCoinAmount.getValue()));
     }
 
     private void setupBinTab() {

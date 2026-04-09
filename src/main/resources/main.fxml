@@ -211,7 +211,7 @@
                                             <padding><Insets left="4.0" /></padding>
                                         </Label>
 
-                                        <Slider fx:id="sliderMonto" blockIncrement="0.0" majorTickUnit="1000" max="0.0" showTickLabels="true" showTickMarks="true">
+                                        <Slider fx:id="sliderCoinAmount" blockIncrement="0.0" majorTickUnit="1000" max="0.0" showTickLabels="true" showTickMarks="true">
                                             <padding><Insets left="4.0" right="4.0" /></padding>
                                         </Slider>
 
@@ -219,7 +219,7 @@
                                             <padding><Insets left="4.0" /></padding>
                                             <children>
                                                 <Label style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #0D1B4B;" text="Monto en ₡:" />
-                                                <TextField fx:id="txtMonto" prefHeight="26.0" prefWidth="145.0" style="-fx-font-size: 13px;" />
+                                                <TextField fx:id="txtCoinValue" prefHeight="26.0" prefWidth="145.0" style="-fx-font-size: 13px;" />
                                             </children>
                                         </HBox>
 
