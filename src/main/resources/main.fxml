@@ -188,7 +188,7 @@
                                                 <Label styleClass="panel-title" text="Cambio de monedas . Solución con la Técnica Algoritmos Voraces (Greedy)" />
                                     <Canvas fx:id="CanvasCoin" height="304.0" width="558.0" />
 
-                                                <TableView fx:id="tableMonedas" prefHeight="220.0" prefWidth="560.0" style="-fx-background-color: white; -fx-border-color: #E8ECF2; -fx-border-radius: 4; -fx-font-size: 12px;">
+                                                <TableView fx:id="tableViewCoin" prefHeight="220.0" prefWidth="560.0" style="-fx-background-color: white; -fx-border-color: #E8ECF2; -fx-border-radius: 4; -fx-font-size: 12px;">
                                                     <columns>
                                                         <TableColumn fx:id="colMoneda" prefWidth="130.0" text="Moneda" />
                                                         <TableColumn fx:id="colCantidad" prefWidth="130.0" text="Cantidad" />

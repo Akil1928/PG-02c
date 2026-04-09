@@ -8,6 +8,40 @@ public class Greedy {
 
     private static final int[] monedas = {500, 100, 50, 25, 10, 5, 1};
 
+    public static class Coin{
+        private int coin;
+        private int quantity;
+        private int amount;
+        private int remaining;
+
+        public Coin(int coin, int quantity, int amount, int remaining) {
+            this.coin = coin;
+            this.quantity = quantity;
+            this.amount = amount;
+            this.remaining = remaining;
+        }
+
+        @Override
+        public String toString() {
+           return String.format("%d x %d = %d (remaining %d)", coin, quantity, amount, remaining);
+        }
+
+        public int getCoin() {
+            return coin;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public int getRemaining() {
+            return remaining;
+        }
+    }
     public static List<Integer> coinChange(int monto) {
         List<Integer> usadas = new ArrayList<>();
         for (int moneda : monedas) {
@@ -43,6 +77,7 @@ public class Greedy {
         return result.toString();
     }
 
+
     public static List<String> coinChange2(int monto) {
         List<String> usadas = new ArrayList<>();
         for (int moneda : monedas) {
@@ -53,6 +88,8 @@ public class Greedy {
         }
         return usadas;
     }
+
+
 
 
     public static class KnapsackResult {

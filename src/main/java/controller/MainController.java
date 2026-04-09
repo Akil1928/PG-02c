@@ -7,11 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 import model.ArrayPainter;
 import model.Greedy;
 import model.SearchEngine;
 import model.SearchResult;
+import model.CoinPainter;
 
 import java.net.URL;
 import java.util.Collections;
@@ -66,23 +68,21 @@ public class MainController implements Initializable {
     private int[] binArray;
     private SearchResult binResult;
     @FXML
-    private TableColumn colMonto;
-    @FXML
-    private TableView tableMonedas;
+    private TableColumn <Greedy.Coin, Integer>colMonto;
     @FXML
     private Canvas canvasBin;
     @FXML
     private Button btnLimpiarMonedas;
     @FXML
-    private TableColumn colMoneda;
+    private TableColumn <Greedy.Coin, Integer> colMoneda;
     @FXML
     private Button btnBinReset;
     @FXML
     private Label lblBinComplexity;
     @FXML
-    private TableColumn colCantidad;
+    private TableColumn <Greedy.Coin, Integer> colCantidad;
     @FXML
-    private TableColumn colRestante;
+    private TableColumn <Greedy.Coin, Integer> colRestante;
     @FXML
     private Canvas CanvasCoin;
     @FXML
@@ -93,6 +93,8 @@ public class MainController implements Initializable {
     private ListView listCoinSteps;
     @FXML
     private Button btnCoinChange;
+    @FXML
+    private TableView<Greedy.Coin> tableViewCoin;
 
 
     @Override
@@ -101,33 +103,91 @@ public class MainController implements Initializable {
         setupCoinTab(); //TAB 2 - MONEDA
     }
 
+    //TAB 2 - MONEDA - Atributos del controlador
+    private final int[] MONEDAS_CR = {500, 100, 50, 25, 10, 5, 1};
+
+
     private void setupCoinTab() {
+        colMoneda.setCellValueFactory(new PropertyValueFactory<>("coin"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colMonto.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        colRestante.setCellValueFactory(new PropertyValueFactory<>("remaining"));
+
         sliderCoinAmount.setMin(100);
-        sliderCoinAmount.setMax(5000);
-        sliderCoinAmount.setValue(787);
-        sliderCoinAmount.setMajorTickUnit(5);
+        sliderCoinAmount.setMax(9999);
+        sliderCoinAmount.setValue(3441);
+        sliderCoinAmount.setMajorTickUnit(1000);
         sliderCoinAmount.setSnapToTicks(false);
-        sliderCoinAmount.valueProperty().addListener((observable, oldValue, newValue) -> {
-            txtCoinValue.setText(String.valueOf(newValue.intValue()));
-        });
+        sliderCoinAmount.valueProperty().addListener((obs, oldVal, newVal) ->
+                txtCoinValue.setText(String.valueOf(newVal.intValue()))
+        );
+        txtCoinValue.setText("3441");
+
         btnCoinChange.setOnAction(event -> generateCoinChange());
 
+        btnLimpiarMonedas.setOnAction(event -> {
+            tableViewCoin.getItems().clear();
+            listCoinSteps.getItems().clear();
+            txtCoinValue.setText("");
+            sliderCoinAmount.setValue(100);
+            // Limpiar el canvas
+            javafx.scene.canvas.GraphicsContext gc = CanvasCoin.getGraphicsContext2D();
+            gc.clearRect(0, 0, CanvasCoin.getWidth(), CanvasCoin.getHeight());
+        });
     }
+
 
     private void generateCoinChange() {
-        int monto = Integer.parseInt(txtCoinValue.getText().trim());
-        //tableview
-        listCoinSteps.getItems().clear();
-        List<String> coinList = Collections.singletonList(Greedy.coinChangeString(monto));
-        //llenamos el ListView
-        ObservableList<String> items = FXCollections.observableArrayList();
-        for (int i = 0; i < coinList.size(); i++) {
-            items.add(String.format("[%02d] %s", i+1, coinList.get(i)));
+        int monto;
+        try {
+            monto = Integer.parseInt(txtCoinValue.getText().trim());
+        } catch (NumberFormatException e) {
+            return; // si el campo está vacío o inválido, no hacemos nada
         }
-        items.add("Monto total: "+monto+"  |  Monedas: "+Greedy.coinChange(monto).size());
-        listCoinSteps.setItems(items);
 
+        // ── Denominaciones (mismo orden que CoinPainter.COINS) ───────────────
+        int[] COINS    = {500, 100, 25, 10, 5, 1};
+        int[] amounts  = new int[COINS.length]; // cantidad de cada moneda
+
+        // ── Llenar TableView y calcular cantidades ────────────────────────────
+        tableViewCoin.getItems().clear();
+        int remaining = monto;
+
+        for (int i = 0; i < COINS.length; i++) {
+            int coin     = COINS[i];
+            int quantity = remaining / coin;
+            if (quantity > 0) {
+                amounts[i]  = quantity;
+                remaining  %= coin;
+                tableViewCoin.getItems().add(
+                        new Greedy.Coin(coin, quantity, quantity * coin, remaining)
+                );
+            }
+        }
+
+        // ── Pintar canvas con las monedas ─────────────────────────────────────
+        CoinPainter.paint(CanvasCoin, amounts);
+
+        // ── Llenar ListView de pasos ──────────────────────────────────────────
+        listCoinSteps.getItems().clear();
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+        // Reconstruimos los pasos paso a paso para mostrar cada denominación
+        int rem2 = monto;
+        int step = 1;
+        for (int coin : COINS) {
+            int qty = rem2 / coin;
+            if (qty > 0) {
+                rem2 -= qty * coin;
+                items.add(String.format("[%02d] %d x %d = %d (remaining %d)",
+                        step++, coin, qty, coin * qty, rem2));
+            }
+        }
+        items.add("Monto Total: " + monto + "  |  Monedas: " +
+                tableViewCoin.getItems().size());
+        listCoinSteps.setItems(items);
     }
+
 
     private void setupBinTab() {
         configSlider(sliderBinSize, 10, 50, 20, lblBinSize);
